@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\Downloads\Master\11 - Redes\Documentos\redunityantessnapshots\Assets\Script\Logica\PlayerInput.cs">
+    <Files>
+      <File FileName="..\..\..\Downloads\Master\11 - Redes\Documentos\redunityantessnapshots\Assets\Script\Logica\CreatePlayer.cs" Line="17" Column="17" />
+      <File FileName="..\..\..\Downloads\Master\11 - Redes\Documentos\redunityantessnapshots\Assets\Script\Red\ServerMgr.cs" Line="1" Column="1" />
+      <File FileName="..\..\..\Downloads\Master\11 - Redes\Documentos\redunityantessnapshots\Assets\Script\Red\ClientMgr.cs" Line="1" Column="1" />
+      <File FileName="..\..\..\Downloads\Master\11 - Redes\Documentos\redunityantessnapshots\Assets\Script\Logica\PlayerInput.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
