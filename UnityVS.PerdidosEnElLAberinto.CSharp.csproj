@@ -81,6 +81,7 @@
     <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
     <None Include="Assets\texturas\Materials\MyShader\borde.shader" />
     <None Include="Assets\texturas\Materials\MyShader\Negativo.shader" />
+    <None Include="Assets\texturas\Materials\MyShader\selectorColor.shader" />
     <None Include="Assets\trap3\badfluid@gmail.com.txt" />
     <None Include="Assets\Warrior 2 Swords\Readme.TXT" />
     <None Include="Assets\Warrior 2 Swords\sources\Toon Shading\Toony Gooch RimOutline Hard.shader" />

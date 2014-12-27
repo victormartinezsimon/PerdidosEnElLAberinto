@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{C9AC543D-BE71-9E08-69E1-353D4348DA90}</ProjectGuid>
+	<ProjectGuid>{C3A6DFFE-605D-DABA-15A0-93E765E55549}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -48,18 +48,21 @@
   <ItemGroup>
      <Compile Include="Assets\Warrior 2 Swords\sources\animation_keys.js" />
      <None Include="Assets\Warrior 2 Swords\sources\Toon Shading\Toony-Basic.shader" />
+     <None Include="Assets\texturas\Materials\MyShader\selectorColor.shader" />
      <None Include="Assets\Warrior 2 Swords\sources\Toon Shading\Toony Gooch RimOutline Hard.shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Warrior 2 Swords\sources\Toon Shading\Toony-BasicOutline.shader" />
+     <None Include="Assets\texturas\Materials\MyShader\Negativo.shader" />
      <None Include="Assets\Warrior 2 Swords\sources\Toon Shading\Toony-LightedOutline.shader" />
      <None Include="Assets\Warrior 2 Swords\sources\Toon Shading\Toony-Lighted.shader" />
      <None Include="Assets\trap3\badfluid@gmail.com.txt" />
+     <None Include="Assets\texturas\Materials\MyShader\borde.shader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{58686AC7-2D48-8F12-5E7B-9D2E964D2427}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{6F2D53A4-FD37-01FD-FFB4-F83C6A6F5E2A}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
-      <Project>{5EB26B50-DBDD-EAF7-3E3C-EB5DF244C5F5}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
+      <Project>{3D37DA15-0787-3A91-D364-519C83196734}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

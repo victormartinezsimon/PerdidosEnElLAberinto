@@ -6,21 +6,37 @@ Direct3D:
     Vendor:   Intel
     VRAM:     0 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
-Loading C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
-Loading C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
-- Completed reload, in  0.079 seconds
+Platform assembly: C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+- Completed reload, in  0.101 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-Platform assembly: C:\Users\Victor\Documents\Unity\Perdidos en el laberinto\Builds\windows\perdidos en el laberinto_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\System.Core.dll (this message is harmless)
+sendto failed with code -1 for char 9 and length 1464.
+sendto failed with code -1 for char 9 and length 1464.
+sendto failed with code -1 for char 9 and length 1464.
+sendto failed with code -1 for char 9 and length 1464.
+On connected to server
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Successfully diconnected from the server
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+sendto failed with code -1 for char 9 and length 1464.
+sendto failed with code -1 for char 9 and length 1464.
+sendto failed with code -1 for char 9 and length 1464.
+sendto failed with code -1 for char 9 and length 1464.
 On connected to server
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
@@ -29,19 +45,17 @@ starg game client
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-UnloadTime: 0.381893 ms
+UnloadTime: 0.251887 ms
 Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 605.
-Total: 0.527723 ms (FindLiveObjects: 0.013257 ms CreateObjectMapping: 0.008553 ms MarkObjects: 0.120598 ms  DeleteObjects: 0.003421 ms)
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 603.
+Total: 0.632499 ms (FindLiveObjects: 0.016250 ms CreateObjectMapping: 0.011546 ms MarkObjects: 0.172344 ms  DeleteObjects: 0.004704 ms)
 
 Start game en el client
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
-UnloadTime: 1.235488 ms
-Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 63 unused Assets to reduce memory usage. Loaded Objects now: 534.
-Total: 0.531999 ms (FindLiveObjects: 0.013257 ms CreateObjectMapping: 0.008980 ms MarkObjects: 0.118887 ms  DeleteObjects: 0.093655 ms)
+Successfully diconnected from the server
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
