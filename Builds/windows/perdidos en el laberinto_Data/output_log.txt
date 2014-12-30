@@ -16,46 +16,7 @@ Platform assembly: C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\
 Loading C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
 Platform assembly: C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
 Loading C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
-- Completed reload, in  0.101 seconds
+- Completed reload, in  0.073 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-Platform assembly: C:\Users\Victor\Documents\Unity\PerdidosEnElLAberinto\Builds\windows\perdidos en el laberinto_Data\Managed\System.Core.dll (this message is harmless)
-sendto failed with code -1 for char 9 and length 1464.
-sendto failed with code -1 for char 9 and length 1464.
-sendto failed with code -1 for char 9 and length 1464.
-sendto failed with code -1 for char 9 and length 1464.
-On connected to server
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-Successfully diconnected from the server
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-sendto failed with code -1 for char 9 and length 1464.
-sendto failed with code -1 for char 9 and length 1464.
-sendto failed with code -1 for char 9 and length 1464.
-sendto failed with code -1 for char 9 and length 1464.
-On connected to server
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-starg game client
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-UnloadTime: 0.251887 ms
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 603.
-Total: 0.632499 ms (FindLiveObjects: 0.016250 ms CreateObjectMapping: 0.011546 ms MarkObjects: 0.172344 ms  DeleteObjects: 0.004704 ms)
-
-Start game en el client
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-
-Successfully diconnected from the server
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
-

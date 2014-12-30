@@ -63,6 +63,7 @@
      <None Include="Assets\texturas\Materials\MyShader\Negativo.shader" />
      <None Include="Assets\Warrior 2 Swords\sources\Toon Shading\Toony-LightedOutline.shader" />
      <None Include="Assets\Warrior 2 Swords\sources\Toon Shading\Toony-Lighted.shader" />
+     <None Include="Assets\texturas\Materials\MyShader\selectorColorByN.shader" />
      <None Include="Assets\trap3\badfluid@gmail.com.txt" />
      <None Include="Assets\texturas\Materials\MyShader\borde.shader" />
   </ItemGroup>

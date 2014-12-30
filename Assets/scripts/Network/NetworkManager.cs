@@ -11,11 +11,11 @@ public class NetworkManager:MonoBehaviour
     public string _ip = "127.0.0.1";
     private string _port = "25001";
     private string _porcentajeTraps = "10";
-    private string m_player1Name = "Player";
-    private string m_player2Name = "Player(2)";
-    private Vector3 m_player1Color = new Vector3(0.5f, 0.5f, 0.5f);
-    private Vector3 m_player2Color = new Vector3(0.5f, 0.5f, 0.5f);
-    private string separador = "#";
+    public string m_player1Name = "Player";
+    public string m_player2Name = "Player(2)";
+    public Vector3 m_player1Color = new Vector3(0.5f, 0.5f, 0.5f);
+    public Vector3 m_player2Color = new Vector3(0.5f, 0.5f, 0.5f);
+    public string separador = "#";
        
     /// <summary>
     /// the gameobjects to instantiate
@@ -35,8 +35,8 @@ public class NetworkManager:MonoBehaviour
     private bool error = false;
     private bool tabPulsado = false;
 
-    private List<string> m_playersName= new List<string>();
-    private List<Vector3> m_playersColours = new List<Vector3>();
+    public List<string> m_playersName= new List<string>();
+    public List<Vector3> m_playersColours = new List<Vector3>();
     private int[] m_playersPosition;
     private List<GameObject> jugadoresInstanciados;
     private Vector3 prizeInstanciado;
@@ -60,14 +60,8 @@ public class NetworkManager:MonoBehaviour
 
     public bool playerInstanciado = false;
 
-    private bool m_pantallaDividida = false;
+    public bool m_pantallaDividida = false;
     private bool m_withIA = false;
-
-    #region elementosEscena
-    public string playerColorName = "PlayerMenu";
-    private GameObject playerColor;
-    #endregion
-
 
     #region Accesores
     public int Ancho
@@ -91,6 +85,40 @@ public class NetworkManager:MonoBehaviour
     public bool SplitScreen
     {
         get { return m_pantallaDividida; }
+        set { m_pantallaDividida = true; }
+    }
+    public string Player1Name
+    {
+        get { return m_player1Name; }
+        set { m_player1Name = value; }
+    }
+    public string Player2Name
+    {
+        get { return m_player2Name; }
+        set { m_player2Name = value; }
+    }
+    public Vector3 Player1Color
+    {
+        get { return m_player1Color; }
+        set { m_player1Color = value; }
+    }
+    public Vector3 Player2Color
+    {
+        get { return m_player2Color; }
+        set { m_player2Color = value; }
+    }
+    public GameState ActualState
+    {
+        get { return actualState; }
+        set { actualState = value; }
+    }
+    public float TimeAcumulado
+    {
+        get { return timeAcum; }
+    }
+    public int[] PlayerPositions
+    {
+        get { return m_playersPosition; }
     }
     #endregion
 
@@ -102,7 +130,7 @@ public class NetworkManager:MonoBehaviour
     /// RefreshHostList-> in client when presh button to refresh
     /// WaitingToStart-> in client, waiting to start the level
     /// </summary>
-    private enum GameState{None,WaitingConnection,CallToStart,Game,WaitingToStart,DirectConnection,Results,Configuring,RefreshHost,Configuring2,PlayerInfo,PlayerInfo2};
+    public enum GameState{None,WaitingConnection,CallToStart,Game,WaitingToStart,DirectConnection,Results,Configuring,RefreshHost,Configuring2,PlayerInfo,PlayerInfo2};
 
     private GameState actualState = GameState.None;
 
@@ -115,17 +143,9 @@ public class NetworkManager:MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-
-        playerColor = GameObject.Find(playerColorName);
     }
     void Update()
     {
-        if (playerColor == null)
-        {
-            playerColor = GameObject.Find(playerColorName);
-        }
-
-
         if (actualState==GameState.RefreshHost)
         {
             if (MasterServer.PollHostList().Length > 0)
@@ -228,8 +248,10 @@ public class NetworkManager:MonoBehaviour
         m_idTemporal = -1;
         m_pantallaDividida = false;
         m_withIA = false;
+
     }
-  
+
+    
     #region mensajes
     //funciones a llamar por los botones
     private void startServer()
@@ -270,7 +292,9 @@ public class NetworkManager:MonoBehaviour
         //Debug.Log("Server initialized and ready");
         //esto es para que se nos pueda encontrar
         MasterServer.RegisterHost(tagName, "Servidor de: " + m_player1Name, "Juego de perdidos en el laberinto");
+        m_playersName.Clear();
         m_playersName.Add(m_player1Name);
+        m_playersColours.Clear();
         m_playersColours.Add(m_player1Color);
 
         if (m_pantallaDividida)
@@ -278,8 +302,8 @@ public class NetworkManager:MonoBehaviour
             m_playersName.Add(m_player2Name);
             m_playersColours.Add(m_player2Color);
         }
-
         actualState = GameState.WaitingConnection;
+        Application.LoadLevel("waitingRoom");
         error = false;
        
     }
@@ -294,12 +318,12 @@ public class NetworkManager:MonoBehaviour
     {
         //llamado en un cliente
         Debug.Log("On connected to server");
-        actualState = GameState.WaitingToStart;
+        
     }
     public void OnPlayerConnected(NetworkPlayer player)
     {
         //llamado en el server
-        if (actualState == GameState.WaitingConnection)
+        if (actualState == GameState.WaitingConnection && m_playersName.Count < numPlayers)
         {
             networkView.RPC("whatsYourInfo", player);
         }
@@ -349,28 +373,15 @@ public class NetworkManager:MonoBehaviour
             case GameState.CallToStart: OnGuiCallToStart(); break;
             case GameState.DirectConnection: OnGuiDirectConnection(); break;
             case GameState.RefreshHost: OnGuiRefreshHost(); break;
-            case GameState.Results: OnGuiResults(); break;
-            case GameState.WaitingConnection: OnGuiWaitingConnection(); break;
-            case GameState.WaitingToStart: OnGuiWaitingToStart(); break;
             case GameState.Configuring: OnGuiConfiguring(); break;
             case GameState.Configuring2: OnGuiConfiguring2(); break;
-            case GameState.PlayerInfo: OnGuiPlayerInfo(); break;
-            case GameState.PlayerInfo2: OnGuiPlayerInfo2(); break;
         }
     }
 
     void OnGuiNone()
     {
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), texturaFondo);
-        
-        /*
-        construyeLabel(new Rect(0.3f * Screen.width, 0.2f * Screen.height, 0.1f * Screen.width, 0.1f * Screen.height), "Player 1:",Color.black);
-        m_player1Name = construyeTextField(new Rect(0.45f * Screen.width, 0.18f * Screen.height, 0.3f * Screen.width, 0.1f * Screen.height), m_player1Name);
-        if (m_player1Name.Length > maximoCaracteres)
-        {
-            m_player1Name = m_player1Name.Substring(0, maximoCaracteres);
-        }
-        */
+
 
         if (construyeButton(new Rect(0.15f * Screen.width, 0.15f * Screen.height, 0.3f * Screen.width, 0.2f * Screen.height), 
             "Start Sever"))
@@ -393,6 +404,7 @@ public class NetworkManager:MonoBehaviour
             "Personalizate Player(s)"))
         {
             actualState = GameState.PlayerInfo;
+            Application.LoadLevel("selectorColor");
         }
         
     }
@@ -549,146 +561,6 @@ public class NetworkManager:MonoBehaviour
             actualState = GameState.None;
         }
     }
-    void OnGuiResults()
-    {
-        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), texturaFondo);
-
-        if (construyeButton(new Rect(0.4f * Screen.width, 0.75f * Screen.height, 0.2f * Screen.width, 0.2f * Screen.height),
-                 "Back"))
-        {
-            Network.Disconnect();
-            restartGame();     
-        }
-        Vector2 tam = getLabelSize("Game Over");
-        construyeLabel(new Rect(Screen.width*0.5f - tam.x/2, Screen.height*0.05f, tam.x, tam.y), "Game Over", Color.red,40);
-        tam=getLabelSize("Total Time: " + Mathf.RoundToInt(timeAcum) + " s");
-        construyeLabel(new Rect(Screen.width * 0.5f - tam.x / 2, Screen.height * 0.15f, tam.x, tam.y), "Total Time: " + Mathf.RoundToInt(timeAcum) + " s", Color.red, 40);
-
-        float origenX = 0.1f * Screen.width;
-        float origenY = 0.25f * Screen.height;
-        float separacion = 0.05f * Screen.width;
-        float tamImagenX = Screen.width - 2 * origenX - (numPlayers - 1) * separacion;
-        tamImagenX = tamImagenX / numPlayers;
-        float tamImagenY = 0.4f * Screen.height;
-        float tamLabelY = 0.1f * Screen.height;
-
-        for (int i = 0; i < numPlayers; i++)
-        {
-            if (i < m_playersName.Count)
-            {
-                //there is a player      
-                float tamLabelX = getLabelSize(m_playersName[i]).x;
-                float tamResultX = getLabelSize(m_playersPosition[i] + " m").x;
-                GUI.DrawTexture(new Rect(origenX, origenY, tamImagenX, tamImagenY), texturasPlayers[i]);
-                construyeLabel(new Rect(origenX + tamImagenX / 2 - tamLabelX / 2, origenY + tamImagenY * 1.0f, tamImagenX, tamLabelY), m_playersName[i], getColor(i));
-                construyeLabel(new Rect(origenX + tamImagenX / 2 - tamResultX / 2, origenY + tamImagenY * 1.1f, tamImagenX, tamLabelY), m_playersPosition[i] + " m", getColor(i));
-
-            }
-            else
-            {
-                //no player
-                GUI.DrawTexture(new Rect(origenX, origenY, tamImagenX, tamImagenY), texturasPlayers[texturasPlayers.Length - 1]);
-
-            }
-            origenX += tamImagenX + separacion;
-
-        }
-
-
-
-    }
-    void OnGuiWaitingConnection()
-    {
-        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), texturaFondo);
-       
-        if (construyeButton(new Rect(0.15f * Screen.width, 0.75f * Screen.height, 0.3f * Screen.width, 0.2f * Screen.height),
-                 "Start Game"))
-        {
-            startGameServer();
-        }
-
-        if (construyeButton(new Rect(0.55f * Screen.width, 0.75f * Screen.height, 0.3f * Screen.width, 0.2f * Screen.height),
-                 "Back"))
-        {
-            Network.Disconnect();
-            m_playersName.Clear();
-            actualState = GameState.Configuring;
-        }
-        float origenX = 0.1f * Screen.width;
-        float origenY = 0.25f * Screen.height;
-        float separacion = 0.05f * Screen.width;
-        float tamImagenX = Screen.width - 2 * origenX - (numPlayers - 1) * separacion;
-        tamImagenX = tamImagenX / numPlayers;
-        float tamImagenY = 0.4f * Screen.height;
-        float tamLabelY= 0.1f*Screen.height;
-
-        for (int i = 0; i < numPlayers; i++)
-        {
-            if (i < m_playersName.Count)
-            {
-                //there is a player      
-                float tamLabelX = getLabelSize(m_playersName[i]).x;
-                GUI.DrawTexture(new Rect(origenX,origenY, tamImagenX, tamImagenY), texturasPlayers[i]);
-                construyeLabel(new Rect(origenX + tamImagenX / 2 - tamLabelX / 2, origenY + tamImagenY * 1.0f, tamImagenX, tamLabelY), m_playersName[i], getColor(i));
-                               
-            }
-            else
-            {
-                //no player
-                GUI.DrawTexture(new Rect(origenX, origenY, tamImagenX, tamImagenY), texturasPlayers[texturasPlayers.Length-1]);
-
-            }
-            origenX += tamImagenX + separacion;
-
-        }
-
-    }
-    void OnGuiWaitingToStart()
-    {
-        GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), texturaFondo);
-        
-
-        if (construyeButton(new Rect(0.35f * Screen.width, 0.75f * Screen.height, 0.3f * Screen.width, 0.2f * Screen.height),
-                "Back"))
-        {
-            string msg = m_player1Name + separador;
-            msg += m_player1Color.x + separador;
-            msg += m_player1Color.y + separador;
-            msg += m_player1Color.z;
-
-            networkView.RPC("removeConnectedUser", RPCMode.Server, msg);
-            Network.Disconnect();
-            m_playersName.Clear();
-            actualState = GameState.None;
-        }
-        float origenX = 0.1f * Screen.width;
-        float origenY = 0.2f * Screen.height;
-        float separacion = 0.05f * Screen.width;
-        float tamImagenX = Screen.width - 2 * origenX - (numPlayers - 1) * separacion;
-        tamImagenX = tamImagenX / numPlayers;
-        float tamImagenY = 0.4f * Screen.height;
-        float tamLabelY = 0.1f * Screen.height;
-
-        for (int i = 0; i < numPlayers; i++)
-        {
-            if (i < m_playersName.Count)
-            {
-                //there is a player
-                float tamLabelX = getLabelSize(m_playersName[i]).x;
-                GUI.DrawTexture(new Rect(origenX, origenY, tamImagenX, tamImagenY), texturasPlayers[i]);
-                construyeLabel(new Rect(origenX + tamImagenX / 2 - tamLabelX / 2, origenY + tamImagenY * 1.0f, tamImagenX, tamLabelY), m_playersName[i], getColor(i));
-                
-            }
-            else
-            {
-                //no player
-                GUI.DrawTexture(new Rect(origenX, origenY, tamImagenX, tamImagenY), texturasPlayers[texturasPlayers.Length - 1]);
-            }
-            origenX += tamImagenX + separacion;
-
-        }
-        
-    }
     void OnGuiConfiguring()
     {
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), texturaFondo);
@@ -797,87 +669,13 @@ public class NetworkManager:MonoBehaviour
         }
 
     }
-    void OnGuiPlayerInfo()
-    {
-        construyeLabel(new Rect(0.05f * Screen.width, 0.2f * Screen.height, 0.1f * Screen.width, 0.1f * Screen.height), "Player 1:", Color.black);
-        m_player1Name = construyeTextField(new Rect(0.2f * Screen.width, 0.18f * Screen.height, 0.3f * Screen.width, 0.1f * Screen.height), m_player1Name);
-        if (m_player1Name.Length > maximoCaracteres)
-        {
-            m_player1Name = m_player1Name.Substring(0, maximoCaracteres);
-        }
-        construyeLabel(new Rect(0.2f * Screen.width, 0.3f * Screen.height, 0.1f * Screen.width, 0.1f * Screen.height), "Color:", Color.black);
-
-        construyeLabel(new Rect(0.2f * Screen.width, 0.4f * Screen.height, 0.5f * Screen.width, 0.1f * Screen.height), "Red", Color.black);
-        m_player1Color.x = GUI.HorizontalSlider(new Rect(0.15f * Screen.width, 0.5f * Screen.height, 0.2f * Screen.width, 0.1f * Screen.height), m_player1Color.x, 0, 1);
-
-        construyeLabel(new Rect(0.2f * Screen.width, 0.55f * Screen.height, 0.5f * Screen.width, 0.1f * Screen.height), "Green", Color.black);
-        m_player1Color.y = GUI.HorizontalSlider(new Rect(0.15f * Screen.width, 0.65f * Screen.height, 0.2f * Screen.width, 0.1f * Screen.height), m_player1Color.y, 0, 1);
-
-        construyeLabel(new Rect(0.2f * Screen.width, 0.7f * Screen.height, 0.5f * Screen.width, 0.1f * Screen.height), "Blue", Color.black);
-        m_player1Color.z = GUI.HorizontalSlider(new Rect(0.15f * Screen.width, 0.8f * Screen.height, 0.2f * Screen.width, 0.1f * Screen.height), m_player1Color.z, 0, 1);
-
-        Renderer render = playerColor.GetComponentInChildren<Renderer>();
-        render.material.SetVector("_ColorPlayer", new Vector4(m_player1Color.x, m_player1Color.y, m_player1Color.z, 1.0f));
-
-        if (construyeButton(new Rect(0.4f * Screen.width, 0.75f * Screen.height, 0.2f * Screen.width, 0.2f * Screen.height),
-                "Back"))
-        {
-            actualState = GameState.None;
-        }
-        if (construyeButton(new Rect(0.65f * Screen.width, 0.75f * Screen.height, 0.3f * Screen.width, 0.2f * Screen.height),
-                "Split Screen"))
-        {
-            actualState = GameState.PlayerInfo2;
-            m_pantallaDividida = true;
-        }
-    }
-
-    void OnGuiPlayerInfo2()
-    {
-        construyeLabel(new Rect(0.05f * Screen.width, 0.2f * Screen.height, 0.1f * Screen.width, 0.1f * Screen.height), "Player 2:", Color.black);
-        m_player2Name = construyeTextField(new Rect(0.2f * Screen.width, 0.18f * Screen.height, 0.3f * Screen.width, 0.1f * Screen.height), m_player2Name);
-        if (m_player2Name.Length > maximoCaracteres)
-        {
-            m_player2Name = m_player2Name.Substring(0, maximoCaracteres);
-        }
-
-        if (m_player1Name == m_player2Name)
-        {
-            m_player2Name += "(2)";
-        } 
-        construyeLabel(new Rect(0.2f * Screen.width, 0.3f * Screen.height, 0.1f * Screen.width, 0.1f * Screen.height), "Color:", Color.black);
-
-        construyeLabel(new Rect(0.2f * Screen.width, 0.4f * Screen.height, 0.5f * Screen.width, 0.1f * Screen.height), "Red", Color.black);
-        m_player2Color.x = GUI.HorizontalSlider(new Rect(0.15f * Screen.width, 0.5f * Screen.height, 0.2f * Screen.width, 0.1f * Screen.height), m_player2Color.x, 0, 1);
-
-        construyeLabel(new Rect(0.2f * Screen.width, 0.55f * Screen.height, 0.5f * Screen.width, 0.1f * Screen.height), "Green", Color.black);
-        m_player2Color.y = GUI.HorizontalSlider(new Rect(0.15f * Screen.width, 0.65f * Screen.height, 0.2f * Screen.width, 0.1f * Screen.height), m_player2Color.y, 0, 1);
-
-        construyeLabel(new Rect(0.2f * Screen.width, 0.7f * Screen.height, 0.5f * Screen.width, 0.1f * Screen.height), "Blue", Color.black);
-        m_player2Color.z = GUI.HorizontalSlider(new Rect(0.15f * Screen.width, 0.8f * Screen.height, 0.2f * Screen.width, 0.1f * Screen.height), m_player2Color.z, 0, 1);
-
-        Renderer render = playerColor.GetComponentInChildren<Renderer>();
-        render.material.SetVector("_ColorPlayer", new Vector4(m_player2Color.x, m_player2Color.y, m_player2Color.z, 1.0f));
-
-        if (construyeButton(new Rect(0.4f * Screen.width, 0.75f * Screen.height, 0.2f * Screen.width, 0.2f * Screen.height),
-                "Confirm"))
-        {
-            actualState = GameState.None;
-        }
-        if (construyeButton(new Rect(0.65f * Screen.width, 0.75f * Screen.height, 0.3f * Screen.width, 0.2f * Screen.height),
-                "Cancel"))
-        {
-            actualState = GameState.PlayerInfo;
-            m_pantallaDividida = false;
-        }
-    }
-     
+ 
     private int transformaValue(float f)
     {
         return Mathf.RoundToInt(f);
     }
 
-    private bool construyeButton(Rect position, string texto,float margen=0.045f,float tam=0.1f)
+    public bool construyeButton(Rect position, string texto,float margen=0.045f,float tam=0.1f)
     {
         GUIStyle styleLabel = new GUIStyle();
         styleLabel.fontSize = 25;
@@ -897,7 +695,7 @@ public class NetworkManager:MonoBehaviour
         }
         return false;
     }
-    private bool construyeButtonFlecha(Rect position,int indice)
+    public bool construyeButtonFlecha(Rect position,int indice)
     {
         GUIStyle styleLabel = new GUIStyle();
         styleLabel.fontSize = 25;
@@ -916,7 +714,7 @@ public class NetworkManager:MonoBehaviour
         }
         return false;
     }
-    private void construyeLabel(Rect position, string texto,Color color,int tamFont=25)
+    public void construyeLabel(Rect position, string texto,Color color,int tamFont=25)
     {
         GUIStyle styleLabel = new GUIStyle();
         styleLabel.fontSize = tamFont;
@@ -926,7 +724,7 @@ public class NetworkManager:MonoBehaviour
 
         GUI.Label(position, texto,styleLabel);
     }
-    private Vector2 getLabelSize(string texto)
+    public Vector2 getLabelSize(string texto)
     {
         GUIStyle styleLabel = new GUIStyle();
         styleLabel.fontSize = 25;
@@ -936,7 +734,7 @@ public class NetworkManager:MonoBehaviour
 
         return styleLabel.CalcSize(new GUIContent(texto));
     }
-    private string construyeTextField(Rect position, string value,float separacion=0.05f)
+    public string construyeTextField(Rect position, string value,float separacion=0.05f)
     {
         GUIStyle styleLabel = new GUIStyle();
         styleLabel.fontSize = 25;
@@ -950,7 +748,7 @@ public class NetworkManager:MonoBehaviour
         value = GUI.TextField(position, value,styleLabel);
         return value;
     }
-    private bool checkBox(Rect position, bool valActual)
+    public bool checkBox(Rect position, bool valActual)
     {
         GUIStyle styleLabel = new GUIStyle();
         styleLabel.fontSize = 25;
@@ -1335,62 +1133,6 @@ public class NetworkManager:MonoBehaviour
 
     #endregion
     #region pantalaEspera
-    /// <summary>
-    /// Called on client when a user is connected in server
-    /// </summary>
-    /// <param name="conectedUser"></param>
-    [RPC]
-    public void setConnectedUser(string conectedUser,  NetworkMessageInfo info)
-    {
-        if (Network.isServer)
-        {
-            if (m_playersName.Contains(conectedUser))
-            {
-                bool encontrado = false;
-                int cuenta = 1;
-                string newName= conectedUser;
-                while (!encontrado)
-                {
-                    newName = conectedUser + "(" + cuenta + ")";
-                    if (!m_playersName.Contains(newName))
-                    {
-                        encontrado = true;
-                    }
-                    else
-                    {
-                        cuenta++;
-                    }
-                }
-
-                m_playersName.Add(newName);
-                
-                networkView.RPC("yourNewName", info.sender, newName);
-            }
-            else
-            {
-                m_playersName.Add(conectedUser);
-            }
-            
-            string mensaje = "";
-            for (int i = 0; i < m_playersName.Count; i++)
-            {
-                mensaje += m_playersName[i] + separador;
-            }
-            networkView.RPC("setConnectedUser", RPCMode.Others, mensaje);
-        }
-        else
-        {
-            m_playersName.Clear();//clear the list of players name
-            string[] aux= conectedUser.Split(separador.ToCharArray());
-            for (int i = 0; i < aux.Length; i++)
-            {
-                if(aux[i].Length>0)
-                    m_playersName.Add(aux[i]);
-            }
-
-        }
-                
-    }
 
     /// <summary>
     /// Called on client when a name is repeated
@@ -1399,8 +1141,19 @@ public class NetworkManager:MonoBehaviour
     [RPC]
     public void yourNewName(string msg)
     {
-        if(isClient())
-            m_player1Name = msg;
+        string[] separacion = msg.Split(separador.ToCharArray());
+
+        if (isClient())
+        {
+            if (m_player1Name == separacion[0])
+            {
+                m_player1Name = separacion[1];
+            }
+            if (m_player2Name == separacion[0])
+            {
+                m_player2Name = separacion[1];
+            }
+        }
     }
 
     /// <summary>
@@ -1414,6 +1167,16 @@ public class NetworkManager:MonoBehaviour
         msg += m_player1Color.y + separador;
         msg += m_player1Color.z;
         networkView.RPC("setNewConnectedUser", RPCMode.Server, msg);
+
+        if (m_pantallaDividida)
+        {
+            string msg2 = m_player2Name + separador;
+            msg2 += m_player2Color.x + separador;
+            msg2 += m_player2Color.y + separador;
+            msg2 += m_player2Color.z;
+            networkView.RPC("setNewConnectedUser", RPCMode.Server, msg2);
+        }
+
     }
 
     /// <summary>
@@ -1430,6 +1193,12 @@ public class NetworkManager:MonoBehaviour
 
             string name = msgSeparado[0];
             Vector3 color= new Vector3(float.Parse(msgSeparado[1]),float.Parse(msgSeparado[2]),float.Parse(msgSeparado[3]));
+
+            if (m_playersName.Count >= numPlayers)
+            {
+                networkView.RPC("youAreOut", info.sender, name);
+                return;
+            }
 
 
             if (m_playersName.Contains(name))
@@ -1451,8 +1220,9 @@ public class NetworkManager:MonoBehaviour
                 }
 
                 m_playersName.Add(newName);
+                string msg2 = name + separador + newName;
 
-                networkView.RPC("yourNewName", info.sender, newName);
+                networkView.RPC("yourNewName", info.sender, msg2);
             }
             else
             {
@@ -1475,6 +1245,26 @@ public class NetworkManager:MonoBehaviour
 
     }
 
+    [RPC]
+    public void youAreOut(string msg)
+    {
+        if (m_pantallaDividida)
+        {
+            if (msg == m_player1Name)
+            {
+                m_player1Name = m_player2Name;
+                m_player1Color = m_player2Color;
+            }
+            
+            m_pantallaDividida = false;
+        }
+        else
+        {
+            Network.Disconnect();
+            closeConnectionByServer();
+        }
+    }
+
     /// <summary>
     /// called in all client to refresh info
     /// </summary>
@@ -1493,9 +1283,11 @@ public class NetworkManager:MonoBehaviour
         {
             int indice = i * 4;
             m_playersName.Add(texto[indice]);
-            Vector3 color = new Vector3(float.Parse(texto[1]), float.Parse(texto[2]), float.Parse(texto[3]));
+            Vector3 color = new Vector3(float.Parse(texto[indice+1]), float.Parse(texto[indice+2]), float.Parse(texto[indice+3]));
             m_playersColours.Add(color);
         }
+        actualState = GameState.WaitingToStart;
+        Application.LoadLevel("waitingRoom");
 
     }
 
@@ -1525,6 +1317,10 @@ public class NetworkManager:MonoBehaviour
 
         }
         networkView.RPC("updateInfoPlayers", RPCMode.Others, mensaje);
+    }
+    public void removerUser(string msg)
+    {
+        networkView.RPC("removeConnectedUser", RPCMode.Server, msg);
     }
     #endregion
     #region fin juego
@@ -1575,8 +1371,10 @@ public class NetworkManager:MonoBehaviour
             m_playersPosition[i] = calcularDistanciaAGanador(i,idGanador);
         }
         actualState = GameState.Results;
-        Application.LoadLevel("lobby");
-
+        
+        Application.LoadLevel("waitingRoom");
+        //rebuscarGameObjects();
+        
         networkView.RPC("endGame2", RPCMode.Others,nameWinner);
     }
 
@@ -1719,6 +1517,7 @@ public class NetworkManager:MonoBehaviour
     {
         //poner un mensaje...
         Application.LoadLevel("lobby");
+        //rebuscarGameObjects();
         Network.Disconnect();
         restartGame();   
     }
