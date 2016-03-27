@@ -13,7 +13,7 @@ public class Trampa : MonoBehaviour
         {
             this.enabled = false;
         }
-        animation["UpDown"].speed = velocidadAnimacion;
+        GetComponent<Animation>()["UpDown"].speed = velocidadAnimacion;
 
     }
 
@@ -21,7 +21,7 @@ public class Trampa : MonoBehaviour
 
     void OnColliderEnter(Collider other)
     {
-        animation.Play("UpDown");
+        GetComponent<Animation>().Play("UpDown");
         Debug.Log("damage player");
     }
 	

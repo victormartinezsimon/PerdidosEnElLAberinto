@@ -325,11 +325,11 @@ public class NetworkManager:MonoBehaviour
         //llamado en el server
         if (actualState == GameState.WaitingConnection && m_playersName.Count < numPlayers)
         {
-            networkView.RPC("whatsYourInfo", player);
+            GetComponent<NetworkView>().RPC("whatsYourInfo", player);
         }
         else
         {
-            networkView.RPC("closeConnectionByServer",player);
+            GetComponent<NetworkView>().RPC("closeConnectionByServer",player);
             Network.CloseConnection(player, true);
         }
         
@@ -791,7 +791,7 @@ public class NetworkManager:MonoBehaviour
             int ticks=(int)System.DateTime.Now.Ticks;
             Seed = ticks;
             string msg = Ancho + separador + Alto + separador + Seed + separador + m_porcentajeQuitaVidas + separador + m_withIA;        
-            networkView.RPC("startGameClient", RPCMode.Others,msg);
+            GetComponent<NetworkView>().RPC("startGameClient", RPCMode.Others,msg);
             sendAllID();
 
             Application.LoadLevel("maze");
@@ -848,11 +848,11 @@ public class NetworkManager:MonoBehaviour
             {
                 if (m_pantallaDividida)
                 {
-                    networkView.RPC("yourId", Network.connections[i - 1], i+1);//ojo al -1
+                    GetComponent<NetworkView>().RPC("yourId", Network.connections[i - 1], i+1);//ojo al -1
                 }
                 else
                 {
-                    networkView.RPC("yourId", Network.connections[i - 1], i);//ojo al -1
+                    GetComponent<NetworkView>().RPC("yourId", Network.connections[i - 1], i);//ojo al -1
                 }
             }            
         }
@@ -875,7 +875,7 @@ public class NetworkManager:MonoBehaviour
                 {
                     if (i == m_idTemporal)
                     {
-                        Camera camera = GameObject.FindGameObjectsWithTag("MainCamera")[0].camera;
+                        Camera camera = GameObject.FindGameObjectsWithTag("MainCamera")[0].GetComponent<Camera>();
                         camera.GetComponent<CameraController>().Target = player;
 
                         camera.rect = new Rect(0, 0, 0.5f, 1f);
@@ -888,7 +888,7 @@ public class NetworkManager:MonoBehaviour
                     {
                         if (i == m_idTemporal +1 )
                         {
-                            Camera camera = GameObject.FindGameObjectsWithTag("MainCamera")[1].camera;
+                            Camera camera = GameObject.FindGameObjectsWithTag("MainCamera")[1].GetComponent<Camera>();
                             camera.GetComponent<CameraController>().Target = player;
                             camera.rect = new Rect(0.5f, 0, 0.5f, 1f);
                             camera.GetComponent<AudioListener>().enabled = false;
@@ -910,9 +910,9 @@ public class NetworkManager:MonoBehaviour
                     if (i == m_idTemporal)
                     {
                         GameObject[] cameras = GameObject.FindGameObjectsWithTag("MainCamera");
-                        cameras[1].camera.enabled = false;
+                        cameras[1].GetComponent<Camera>().enabled = false;
                         cameras[1].GetComponent<AudioListener>().enabled = false;
-                        Camera camera = cameras[0].camera;
+                        Camera camera = cameras[0].GetComponent<Camera>();
                         camera.GetComponent<CameraController>().Target = player;
                         playerInstanciado = true;
                         habilitarComponentes(false, player);
@@ -931,7 +931,7 @@ public class NetworkManager:MonoBehaviour
             instanciaIA();
         
 
-        networkView.RPC("playerEndInstanciacion", RPCMode.Server);
+        GetComponent<NetworkView>().RPC("playerEndInstanciacion", RPCMode.Server);
         playerEndInstanciacion();//sto es por si somos el servidor
     }
 
@@ -964,7 +964,7 @@ public class NetworkManager:MonoBehaviour
     public void yourId(int id)
     {
         m_idTemporal = id;//almaceno cual es el id
-        networkView.RPC("idRecived", RPCMode.Server, id);
+        GetComponent<NetworkView>().RPC("idRecived", RPCMode.Server, id);
     }
     [RPC]
     public void idRecived(int id)
@@ -987,7 +987,7 @@ public class NetworkManager:MonoBehaviour
                 findPlayersInstantiated();
                 Debug.Log("Start game en el sever");
                 actualState = GameState.Game;
-                networkView.RPC("StartGame", RPCMode.Others);
+                GetComponent<NetworkView>().RPC("StartGame", RPCMode.Others);
                 m_playersPosition = new int[m_playersName.Count];
                 timeAcum = 0;
                 habilitarComponentes(true);
@@ -1061,7 +1061,7 @@ public class NetworkManager:MonoBehaviour
             {
                 if (i != j)
                 {
-                    Physics.IgnoreCollision(jugadoresInstanciados[i].collider, jugadoresInstanciados[j].collider);
+                    Physics.IgnoreCollision(jugadoresInstanciados[i].GetComponent<Collider>(), jugadoresInstanciados[j].GetComponent<Collider>());
                 }
             }
             /*
@@ -1166,7 +1166,7 @@ public class NetworkManager:MonoBehaviour
         msg += m_player1Color.x + separador;
         msg += m_player1Color.y + separador;
         msg += m_player1Color.z;
-        networkView.RPC("setNewConnectedUser", RPCMode.Server, msg);
+        GetComponent<NetworkView>().RPC("setNewConnectedUser", RPCMode.Server, msg);
 
         if (m_pantallaDividida)
         {
@@ -1174,7 +1174,7 @@ public class NetworkManager:MonoBehaviour
             msg2 += m_player2Color.x + separador;
             msg2 += m_player2Color.y + separador;
             msg2 += m_player2Color.z;
-            networkView.RPC("setNewConnectedUser", RPCMode.Server, msg2);
+            GetComponent<NetworkView>().RPC("setNewConnectedUser", RPCMode.Server, msg2);
         }
 
     }
@@ -1196,7 +1196,7 @@ public class NetworkManager:MonoBehaviour
 
             if (m_playersName.Count >= numPlayers)
             {
-                networkView.RPC("youAreOut", info.sender, name);
+                GetComponent<NetworkView>().RPC("youAreOut", info.sender, name);
                 return;
             }
 
@@ -1222,7 +1222,7 @@ public class NetworkManager:MonoBehaviour
                 m_playersName.Add(newName);
                 string msg2 = name + separador + newName;
 
-                networkView.RPC("yourNewName", info.sender, msg2);
+                GetComponent<NetworkView>().RPC("yourNewName", info.sender, msg2);
             }
             else
             {
@@ -1240,7 +1240,7 @@ public class NetworkManager:MonoBehaviour
                 mensaje += m_playersColours[i].z + separador;
 
             }
-            networkView.RPC("updateInfoPlayers", RPCMode.Others, mensaje);
+            GetComponent<NetworkView>().RPC("updateInfoPlayers", RPCMode.Others, mensaje);
         }
 
     }
@@ -1316,11 +1316,11 @@ public class NetworkManager:MonoBehaviour
             mensaje += m_playersColours[i].z + separador;
 
         }
-        networkView.RPC("updateInfoPlayers", RPCMode.Others, mensaje);
+        GetComponent<NetworkView>().RPC("updateInfoPlayers", RPCMode.Others, mensaje);
     }
     public void removerUser(string msg)
     {
-        networkView.RPC("removeConnectedUser", RPCMode.Server, msg);
+        GetComponent<NetworkView>().RPC("removeConnectedUser", RPCMode.Server, msg);
     }
     #endregion
     #region fin juego
@@ -1375,7 +1375,7 @@ public class NetworkManager:MonoBehaviour
         Application.LoadLevel("waitingRoom");
         //rebuscarGameObjects();
         
-        networkView.RPC("endGame2", RPCMode.Others,nameWinner);
+        GetComponent<NetworkView>().RPC("endGame2", RPCMode.Others,nameWinner);
     }
 
     #endregion
@@ -1398,7 +1398,7 @@ public class NetworkManager:MonoBehaviour
             mensaje += separador + orientacion.x + separador + orientacion.y + separador + orientacion.z; //quaternion
             mensaje += separador + deltaGiro;
             mensaje += separador + velGiro;
-            networkView.RPC("receiveTransform", RPCMode.Others, mensaje);
+            GetComponent<NetworkView>().RPC("receiveTransform", RPCMode.Others, mensaje);
 
             m_playersPosition[id] = calcularDistanciaPremio(id);
         }        
@@ -1444,7 +1444,7 @@ public class NetworkManager:MonoBehaviour
     public void sendSnapShotPosition(string msg,int id)
     {
         msg = id + separador + msg;
-        networkView.RPC("receiveSnapShotPosition", RPCMode.Others, msg);
+        GetComponent<NetworkView>().RPC("receiveSnapShotPosition", RPCMode.Others, msg);
     }
     [RPC]
     public void receiveSnapShotPosition(string msg)
@@ -1459,7 +1459,7 @@ public class NetworkManager:MonoBehaviour
     public void sendSnapShotRotation(string msg,int id)
     {        
         msg = id + separador + msg;
-        networkView.RPC("receiveSnapShotRotation", RPCMode.Others, msg);
+        GetComponent<NetworkView>().RPC("receiveSnapShotRotation", RPCMode.Others, msg);
     }
     [RPC]
     public void receiveSnapShotRotation(string msg)
@@ -1475,7 +1475,7 @@ public class NetworkManager:MonoBehaviour
     public void sendSnapShotOrientation(string msg, int id)
     {
         msg = id + separador + msg;
-        networkView.RPC("receiveSnapShotOrientation", RPCMode.Others, msg);
+        GetComponent<NetworkView>().RPC("receiveSnapShotOrientation", RPCMode.Others, msg);
     }
     [RPC]
     public void receiveSnapShotOrientation(string msg)
@@ -1502,12 +1502,12 @@ public class NetworkManager:MonoBehaviour
         if (isClient())
         {
             //que se vaya?
-            networkView.RPC("clientOut", RPCMode.Others, m_idTemporal);
+            GetComponent<NetworkView>().RPC("clientOut", RPCMode.Others, m_idTemporal);
             killGame();
         }
         else
         {            
-            networkView.RPC("killGame", RPCMode.Others);
+            GetComponent<NetworkView>().RPC("killGame", RPCMode.Others);
             killGame();
         }
 
