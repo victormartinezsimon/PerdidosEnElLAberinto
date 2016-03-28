@@ -67,6 +67,11 @@ public class MazeGenerator: MonoBehaviour
         instanciarLaberinto();
         instanciarSuelo();
         colocarHuecosPasillo();
+        LocalNetwork[] lns = FindObjectsOfType<LocalNetwork>();
+        for(int i = 0; i < lns.Length; i++)
+        {
+            lns[i].mazeGenerated();
+        }
         //instanciaKillPlane();
     }
 	
